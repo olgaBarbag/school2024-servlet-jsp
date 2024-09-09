@@ -45,7 +45,7 @@ public class UserDAOImpl implements IUserDAO {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement ps = connection.prepareStatement(sqlUpdate)) {
 
-            ps.setString(1, user.getPassword());
+            ps.setString(1, SecurityUtil.encryptPassword(user.getPassword()));
             ps.setInt(2, user.getId());
             ps.executeUpdate();
 
@@ -89,7 +89,7 @@ public class UserDAOImpl implements IUserDAO {
         PreparedStatement ps = connection.prepareStatement(sqlFindAll)){
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                users.add(new User(rs.getInt("id"), rs.getString("username"), rs.getString("password")));
+                users.add(new User(rs.getInt("id"), rs.getString("username")));
             }
 
             return users;
@@ -111,7 +111,7 @@ public class UserDAOImpl implements IUserDAO {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+                user = new User(rs.getInt("id"), rs.getString("username"));
             }
             return user;
 
