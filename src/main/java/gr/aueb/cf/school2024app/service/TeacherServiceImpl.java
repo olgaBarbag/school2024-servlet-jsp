@@ -2,9 +2,9 @@ package gr.aueb.cf.school2024app.service;
 
 import gr.aueb.cf.school2024app.dao.ITeacherDAO;
 import gr.aueb.cf.school2024app.dao.exceptions.TeacherDAOException;
-import gr.aueb.cf.school2024app.dto.FiltersDTO;
-import gr.aueb.cf.school2024app.dto.TeacherInsertDTO;
-import gr.aueb.cf.school2024app.dto.TeacherUpdateDTO;
+import gr.aueb.cf.school2024app.dto.teacher.FiltersDTO;
+import gr.aueb.cf.school2024app.dto.teacher.TeacherInsertDTO;
+import gr.aueb.cf.school2024app.dto.teacher.TeacherUpdateDTO;
 import gr.aueb.cf.school2024app.model.Teacher;
 import gr.aueb.cf.school2024app.service.exceptions.TeacherNotFoundException;
 
