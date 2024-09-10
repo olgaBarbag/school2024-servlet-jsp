@@ -14,5 +14,10 @@ public interface ITeacherDAO {
     void delete(Integer id) throws TeacherDAOException;
 
     Teacher findById(int id) throws TeacherDAOException;
+
     List<Teacher> findByName(String name) throws TeacherDAOException;
+
+    List<Teacher> filteredTeacher(String firstname, String lastname) throws TeacherDAOException;
+
+    Teacher findByUsername(String username) throws TeacherDAOException;
 }

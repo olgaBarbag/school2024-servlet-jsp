@@ -118,4 +118,49 @@ public class TeacherDAOImpl implements ITeacherDAO {
             throw new TeacherDAOException("Finding teacher with: " + name + " failed");
         }
     }
+
+    public List<Teacher> filteredTeacher(String firstname, String lastname) throws TeacherDAOException {
+        String sqlFilter= "SELECT * FROM teachers WHERE firstname LIKE ? AND lastname LIKE ?";
+        List<Teacher> teachers = new ArrayList<>();
+
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sqlFilter)){
+            ps.setString(1, "%" + firstname + "%");
+            ps.setString(2, "%" + lastname + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                teachers.add(new Teacher
+                        (rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"))
+                );
+            }
+            return teachers;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //logging
+            throw new TeacherDAOException("Finding teacher with firstname like " + firstname + "and lastname like " + lastname + " failed");
+        }
+    }
+
+    public Teacher findByUsername(String username) throws TeacherDAOException {
+        String sqlFindByName = "SELECT * FROM teachers INNER JOIN users ON teachers.id = users.tid WHERE username = ?";
+        Teacher teacher = null;
+
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sqlFindByName)){
+            ps.setString(1, username );
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                teacher = (new Teacher
+                        (rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"))
+                );
+            }
+            return teacher;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //logging
+            throw new TeacherDAOException("Finding teacher with: " + username + " failed");
+        }
+    }
 }
