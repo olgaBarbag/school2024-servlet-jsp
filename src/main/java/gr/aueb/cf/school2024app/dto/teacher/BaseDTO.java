@@ -1,4 +1,4 @@
-package gr.aueb.cf.school2024app.dto;
+package gr.aueb.cf.school2024app.dto.teacher;
 
 public abstract class BaseDTO {
     private String firstName;
