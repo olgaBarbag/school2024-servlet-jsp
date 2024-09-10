@@ -89,7 +89,7 @@ public class UserDAOImpl implements IUserDAO {
         PreparedStatement ps = connection.prepareStatement(sqlFindAll)){
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                users.add(new User(rs.getInt("id"), rs.getString("username")));
+                users.add(new User(rs.getInt("id"), rs.getString("username"), SecurityUtil.encryptPassword(rs.getString("password"))));
             }
 
             return users;
@@ -111,7 +111,7 @@ public class UserDAOImpl implements IUserDAO {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user = new User(rs.getInt("id"), rs.getString("username"));
+                user = new User(rs.getInt("id"), rs.getString("username"), SecurityUtil.encryptPassword(rs.getString("password")));
             }
             return user;
 
@@ -126,8 +126,8 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public boolean isUsernameExist(String username) throws UserDAOException {
-        String sqlFindByUsername = "SELECT * FROM users WHERE username = ?";
-        boolean isUsernameExist = false;
+        String sqlFindByUsername = "SELECT COUNT(*) FROM users WHERE username = ?";
+        int count = 0;
 
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement ps = connection.prepareStatement(sqlFindByUsername)) {
@@ -135,9 +135,9 @@ public class UserDAOImpl implements IUserDAO {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                isUsernameExist = true;
+                count = rs.getInt(1);
             }
-            return isUsernameExist;
+            return count > 0;
             //logging
 
         } catch (SQLException e) {
@@ -149,11 +149,29 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public boolean isEmailExist(String email) throws UserDAOException {
-        return false;
+        String sqlFindByEmail = "SELECT COUNT(*) FROM users WHERE email = ?";
+        int count = 0;
+
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sqlFindByEmail)){
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            return count > 0;
+            //logging
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //logging
+            throw new UserDAOException("Finding the user with username: " + email + " failed");
+        }
     }
 
     @Override
-    public boolean isUserValid(String username, String password) throws UserDAOException {
+    public boolean isUserValidA(String username, String password) throws UserDAOException {
         String sqlFindByUsername = "SELECT * FROM users WHERE username = ?";
         boolean isValid = false;
 
@@ -168,6 +186,32 @@ public class UserDAOImpl implements IUserDAO {
             }
 
             return isValid;
+            //logging
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //logging
+            throw new UserDAOException("Finding the user with username: " + username + " failed");
+        }
+    }
+
+    @Override
+    public boolean isUserValidB(String username, String password) throws UserDAOException {
+        String sqlFindByUsername = "SELECT * FROM users WHERE username = ?";
+        User user = null;
+
+
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sqlFindByUsername)){
+
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+            } else {
+                return false;
+            }
+            return SecurityUtil.checkPassword(password, user.getPassword());
             //logging
         } catch (SQLException e) {
             e.printStackTrace();

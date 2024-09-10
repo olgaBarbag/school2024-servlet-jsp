@@ -19,7 +19,10 @@ public interface IUserDAO {
 
     boolean isUsernameExist(String username) throws UserDAOException;
 
+    //We will use this method in registration of user
     boolean isEmailExist(String email) throws UserDAOException;
 
-    boolean isUserValid(String username, String password) throws UserDAOException;
+    boolean isUserValidA(String username, String password) throws UserDAOException;
+
+    boolean isUserValidB(String username, String password) throws UserDAOException;
 }
