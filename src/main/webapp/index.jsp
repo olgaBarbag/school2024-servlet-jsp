@@ -11,11 +11,16 @@
 </head>
 <body>
 
+<%--Transpiler import the code of header directly here--%>
+<%--It works like psevdonym, so it does not need relative path--%>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
 <!-- Main Content -->
 <main class="container text-center my-5 main-content">
     <h1 class="mb-5">Κεντρική Υπηρεσία Coding Factory</h1>
+    <%--/login: endpoint--%>
+    <%--Once user push "Συνεχεια" button, login controller is called WITH https://GET--%>
+    <%--So controller needs to include a doGET AND return the page/dispatch--%>
     <a href="${pageContext.request.contextPath}/login" class="custom-button-green">Συνέχεια</a>
 </main>
 
