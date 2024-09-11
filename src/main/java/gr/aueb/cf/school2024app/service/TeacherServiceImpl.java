@@ -59,7 +59,7 @@ public class TeacherServiceImpl implements ITeacherService {
             if (teacherDAO.findById(id) == null) {
                 throw new TeacherNotFoundException("Teacher not found");
             }
-            teacherDAO.delete(id);
+            teacherDAO.deletedAtAll(id);
 
         } catch (TeacherDAOException | TeacherNotFoundException e) {
             e.printStackTrace();

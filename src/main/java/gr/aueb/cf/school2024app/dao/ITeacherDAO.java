@@ -20,4 +20,6 @@ public interface ITeacherDAO {
     List<Teacher> filteredTeacher(String firstname, String lastname) throws TeacherDAOException;
 
     Teacher findByUsername(String username) throws TeacherDAOException;
+
+    void deletedAtAll(Integer id) throws TeacherDAOException;
 }

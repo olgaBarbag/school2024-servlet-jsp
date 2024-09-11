@@ -60,8 +60,8 @@ public class UserDAOImpl implements IUserDAO {
 
     }
 
-    @Override
-    public void delete(String username) throws UserDAOException {
+   /* @Override
+    public void delete(Integer tid) throws UserDAOException {
         String sqlDelete = "DELETE FROM users WHERE username = ?";
 
         try (Connection connection = DBUtil.getConnection();
@@ -78,7 +78,7 @@ public class UserDAOImpl implements IUserDAO {
             throw new UserDAOException("Delete the user with username: " + username + " failed");
         }
 
-    }
+    }*/
 
     @Override
     public List<User> findAll() throws UserDAOException {

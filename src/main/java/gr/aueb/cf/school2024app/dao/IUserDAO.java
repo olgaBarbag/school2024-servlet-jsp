@@ -11,7 +11,7 @@ public interface IUserDAO {
 
     User update(User user) throws UserDAOException;
 
-    void delete(String username) throws UserDAOException;
+    //void delete(String username) throws UserDAOException;
 
     List<User> findAll() throws UserDAOException;
 

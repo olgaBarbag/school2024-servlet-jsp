@@ -13,6 +13,7 @@ import java.util.List;
 
 public class TeacherDAOImpl implements ITeacherDAO {
 
+
     @Override
     public Teacher insert(Teacher teacher) throws TeacherDAOException {
 
@@ -56,8 +57,10 @@ public class TeacherDAOImpl implements ITeacherDAO {
         }
     }
 
+
     @Override
     public void delete(Integer id) throws TeacherDAOException {
+
         String sqlDelete = "DELETE FROM teachers WHERE id = ?";
 
         try (Connection connection = DBUtil.getConnection();
@@ -65,6 +68,28 @@ public class TeacherDAOImpl implements ITeacherDAO {
         ){
             ps.setInt(1, id);
             ps.executeUpdate();
+            //logging
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //logging
+            throw new TeacherDAOException("Delete teacher with id: " + id + " failed");
+        }
+
+    }
+
+    @Override
+    public void deletedAtAll(Integer id) throws TeacherDAOException {
+        String teachDelete = "DELETE FROM teachers WHERE id = ?";
+        String userDelete = "DELETE FROM users WHERE tid = ?";
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement ps1 = connection.prepareStatement(teachDelete);
+             PreparedStatement ps2 = connection.prepareStatement(userDelete)
+        ){
+            ps1.setInt(1, id);
+            ps1.executeUpdate();
+            ps2.setInt(1, id);
+            ps2.executeUpdate();
             //logging
 
         } catch (SQLException e) {
