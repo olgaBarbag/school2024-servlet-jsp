@@ -20,6 +20,15 @@ import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 
+/*Flow: User goes to register page, does successful registration, so record to the DB
+ * After registration goes to login page, and Login Controller raise a session with this username in Session Object
+ * and redirect it to the teachers page
+ * Then client will send another request
+ * So after login, every new request should be checked if there is a session active with this login
+ * Every new request should be checked if there is state for that,  login has been done by filters (AuthFilter)
+
+ */
+
 @WebServlet("users/register")
 public class UserRegisterController extends HttpServlet {
     @Serial

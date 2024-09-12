@@ -13,6 +13,14 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.Serial;
 
+/*Flow: User goes to register page, does successful registration, so record to the DB
+ * After registration goes to login page, and
+ * Login Controller raise a session, writing in Session Object a username
+ * and redirect it to the teachers page
+ * Then client will receive a cookie(setCookie) and send another request  to go to another page
+ * So after login, every new request should be checked if there is a session active with this login
+ Every new request should be checked if there is state for that,  login has been done by filters (AuthFilter)/
+ */
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
     @Serial
