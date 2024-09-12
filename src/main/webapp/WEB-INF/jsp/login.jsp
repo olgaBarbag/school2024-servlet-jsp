@@ -46,7 +46,7 @@
                     <a href="#">Lost your password?</a>
                 </div>
             </div>
-            <%--Sign up: register endpoint--%>
+            <%--Sign up: register endpoint: UserRegisterController--%>
             <div class="row">
                 <p>Don't have an account? <a href="${pageContext.request.contextPath}/users/register">Sign up here!</a></p>
             </div>

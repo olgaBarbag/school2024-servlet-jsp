@@ -7,7 +7,7 @@ public class UserReadOnlyDTO extends BaseUserDTO {
 
     }
 
-    public UserReadOnlyDTO(String username, String password, Integer id) {
+    public UserReadOnlyDTO(Integer id, String username, String password) {
         super(username, password);
         this.id = id;
     }
