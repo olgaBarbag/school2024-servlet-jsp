@@ -19,6 +19,8 @@
                 <div class="row">
                     <h1 class="text-grey">Login</h1>
                 </div>
+
+                <%--Conditional area: If this condition is true error message shows up, else it is empty area.--%>
                 <div class=container>
                     <%--Conditional: if validation is error or any other error in login process,
                      controller will send that with request back to login page--%>
@@ -28,7 +30,9 @@
                     </c:if>
                 </div>
 
-                <%--Controller reads the credentials, that user send with POST, from "name" --%>
+                <%--Here is a form area. Method: POST, which means user's data passed through request to controller--%>
+                <%--Action: The address where this request, including data, will be send after submit. --%>
+                <%--Controller reads the credentials, that user send with POST, from "name" attribute --%>
                 <form method="POST" action="${pageContext.request.contextPath}/login">
                     <div class="row">
                         <input type="email" name="username" required placeholder="E-mail">

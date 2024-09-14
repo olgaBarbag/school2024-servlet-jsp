@@ -29,7 +29,7 @@ import java.util.Map;
 
  */
 
-@WebServlet("users/register")
+@WebServlet("/users/register")
 public class UserRegisterController extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;

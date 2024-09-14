@@ -30,11 +30,15 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
+
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         boolean authenticated = false;
 
+        /*Cookies are strings which server sends in browser.
+        The 1st time that request goes to tomcat, tomcat gives to server a cookie JSESSIONID,
+        and server through response send it to browser*/
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {

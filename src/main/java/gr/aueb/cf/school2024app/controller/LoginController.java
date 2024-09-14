@@ -43,12 +43,12 @@ public class LoginController extends HttpServlet {
 
         //Takes some data of isError condition
         //Data Binding
-        String isError = request.getParameter("isError");
+        String isErrorQuery = request.getParameter("isError");
 
         //if "/login" then isError == null
         //if "/login?isError=true" then isError == isError
         //request.setAttribute("isError", isError == null ? "false" : "true");
-        request.setAttribute("isError", isError == null ? "false" : isError);
+        request.setAttribute("isError", isErrorQuery == null ? "false" : isErrorQuery);
 
 
         /*Basic role of doGet --> go to the page*/
@@ -73,11 +73,17 @@ public class LoginController extends HttpServlet {
         try {
             principleIsAuthenticated = AuthenticationProvider.authenticateB(userLoginDTO);
 
+            /*If authentication passed*/
             if (principleIsAuthenticated) {
+
+                //1) creation of new session set false
                 HttpSession session = request.getSession(false);
+                //2) saving username for this session in Session Object
                 session.setAttribute("username", username);
+                //3) send the page "teachers" back to client
                 response.sendRedirect(request.getContextPath() + "/teachers");
             } else {
+                /*If authentication fail send user back to page login with the parameter isError=true: "/login?isError=true"*/
                 response.sendRedirect(request.getContextPath() + "/login?isError=true");
             }
         } catch (UserDAOException e) {
