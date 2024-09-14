@@ -20,6 +20,7 @@ import java.io.IOException;
  *
  * AuthFilter checks if there is or not state for every request after successful login
  * There is ordering, chain
+ * The order is configured into web.xml file
  *
  * //Middleware (node.js & csharp)
  */
